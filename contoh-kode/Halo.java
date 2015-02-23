@@ -1,3 +1,7 @@
+package pelatihan;
+
+import com.muhardin.endy.training.java.fundamental.utilitas.Kalkulator;
+
 public class Halo {
     public static void main(String[] a){
         System.out.println("Halo Dunia");
