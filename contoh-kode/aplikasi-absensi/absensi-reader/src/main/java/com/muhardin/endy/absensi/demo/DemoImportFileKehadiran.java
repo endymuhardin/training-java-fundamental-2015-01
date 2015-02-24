@@ -3,7 +3,6 @@ package com.muhardin.endy.absensi.demo;
 import com.muhardin.endy.absensi.importer.file.ImporterKehadiranTextfile;
 import com.muhardin.endy.absensi.importer.ImporterKehadiran;
 import com.muhardin.endy.absensi.Kehadiran;
-import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 
