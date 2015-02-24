@@ -1,6 +1,8 @@
 package com.muhardin.endy.absensi.demo;
 
 public class CobaMethod {
+    //public CobaMethod(String x){}
+
     public void add(Integer x, Integer y){
         System.out.println(x + y);        
     }
