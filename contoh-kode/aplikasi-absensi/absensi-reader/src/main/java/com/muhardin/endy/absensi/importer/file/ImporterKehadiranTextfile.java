@@ -12,46 +12,38 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+public class ImporterKehadiranTextfile
+        implements ImporterKehadiran {
 
-public class ImporterKehadiranTextfile 
-                    implements ImporterKehadiran {
-    
     private File sumberData;
 
     // constructor, untuk membuat object dari class ini
     // harus menyediakan file sumber data
-    public ImporterKehadiranTextfile(File f){
+    public ImporterKehadiranTextfile(File f) {
         this.sumberData = f;
     }
 
-    public List<Kehadiran> importData(){
+    public List<Kehadiran> importData() throws FileNotFoundException {
         FileReader fr = null;
         BufferedReader br = null;
         List<Kehadiran> hasil = new ArrayList<Kehadiran>();
+        System.out.println("Nanti memproses file di sini");
+        fr = new FileReader(sumberData);
+        br = new BufferedReader(fr);
+        String data;
         try {
-            System.out.println("Nanti memproses file di sini");
-            fr = new FileReader(sumberData);
-            br = new BufferedReader(fr);
-            String data = br.readLine();
-            while(data != null){
+            data = br.readLine();
+            while (data != null) {
                 System.out.println(data);
                 data = br.readLine();
-            }   
-        } catch (Exception ex) {
-            Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if(br != null){
-                    br.close();
-                }
-                
-                if(fr != null){
-                    fr.close();
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return hasil;
+            br.close();
+
+            fr.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Gagal membaca file");
         }
+        return hasil;
     }
 }
