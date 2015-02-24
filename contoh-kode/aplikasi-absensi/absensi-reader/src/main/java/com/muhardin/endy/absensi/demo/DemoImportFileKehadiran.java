@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class DemoImportFileKehadiran{
     public static void main(String[] xx) {
         try {
-            File f = new File("src/main/resources/datax.txt");
+            File f = new File("src/main/resources/data.txt");
             
             ImporterKehadiran im
                     = new ImporterKehadiranTextfile(f);

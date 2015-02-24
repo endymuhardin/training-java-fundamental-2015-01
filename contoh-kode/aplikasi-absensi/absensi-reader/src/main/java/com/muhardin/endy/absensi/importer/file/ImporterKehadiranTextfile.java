@@ -2,6 +2,7 @@ package com.muhardin.endy.absensi.importer.file;
 
 import com.muhardin.endy.absensi.importer.ImporterKehadiran;
 import com.muhardin.endy.absensi.Kehadiran;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,14 @@ public class ImporterKehadiranTextfile
             data = br.readLine();
             while (data != null) {
                 System.out.println(data);
+                String[] dipecah = data.split("[\\s]+");
+                System.out.println("Jumlah data setelah split : "+dipecah.length);
+                
+                System.out.println("Data 1 "+dipecah[0]);
+                System.out.println("Data 2 "+dipecah[1]);
+                System.out.println("Data 3 "+dipecah[2]);
+                System.out.println("Data 4 "+dipecah[3]);
+                
                 data = br.readLine();
             }
             br.close();
