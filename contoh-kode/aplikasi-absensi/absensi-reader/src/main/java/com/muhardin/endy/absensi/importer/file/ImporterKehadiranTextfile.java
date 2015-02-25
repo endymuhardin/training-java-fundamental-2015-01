@@ -2,7 +2,6 @@ package com.muhardin.endy.absensi.importer.file;
 
 import com.muhardin.endy.absensi.importer.ImporterKehadiran;
 import com.muhardin.endy.absensi.Kehadiran;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +40,7 @@ public class ImporterKehadiranTextfile
         String polaWaktu = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat parserWaktu = new SimpleDateFormat(polaWaktu);
         
-        Map<Integer, List<Date>> dataAbsensi = new HashMap<Integer, List<Date>>();
+        SortedMap<Integer, List<Date>> dataAbsensi = new TreeMap<Integer, List<Date>>();
         
         try {
             data = br.readLine();
