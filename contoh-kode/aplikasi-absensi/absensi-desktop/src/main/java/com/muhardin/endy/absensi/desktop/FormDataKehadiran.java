@@ -5,8 +5,16 @@
  */
 package com.muhardin.endy.absensi.desktop;
 
+import com.muhardin.endy.absensi.Kehadiran;
+import com.muhardin.endy.absensi.importer.ImporterKehadiran;
+import com.muhardin.endy.absensi.importer.file.ImporterKehadiranTextfile;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -173,15 +181,27 @@ public class FormDataKehadiran extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProsesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProsesActionPerformed
-        // TODO add your handling code here:
+        
+        try {
+            ImporterKehadiran im
+                    = new ImporterKehadiranTextfile(fileYangDipilih);
+            List<Kehadiran> hasil = im.importData();
+            System.out.println("Jumlah data : "+hasil.size());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FormDataKehadiran.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "File gak ketemu gan", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnProsesActionPerformed
 
+    
+    
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
         int hasilPilihFile = jfcPilihFile.showOpenDialog(this);
         
         // kalau tekan tombol OK, baru kita proses
         if(JFileChooser.APPROVE_OPTION == hasilPilihFile){
-            File fileYangDipilih = jfcPilihFile.getSelectedFile();
+            fileYangDipilih = jfcPilihFile.getSelectedFile();
             txtNamaFile.setText(fileYangDipilih.getName());
         }
     }//GEN-LAST:event_btnPilihActionPerformed
@@ -220,6 +240,8 @@ public class FormDataKehadiran extends javax.swing.JFrame {
             }
         });
     }
+    
+    private File fileYangDipilih;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPilih;
