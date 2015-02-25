@@ -5,6 +5,9 @@
  */
 package com.muhardin.endy.absensi.desktop;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author endy
@@ -27,6 +30,7 @@ public class FormDataKehadiran extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jfcPilihFile = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtNamaFile = new javax.swing.JTextField();
@@ -55,6 +59,11 @@ public class FormDataKehadiran extends javax.swing.JFrame {
         });
 
         btnPilih.setText("Pilih");
+        btnPilih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPilihActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,6 +176,16 @@ public class FormDataKehadiran extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnProsesActionPerformed
 
+    private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
+        int hasilPilihFile = jfcPilihFile.showOpenDialog(this);
+        
+        // kalau tekan tombol OK, baru kita proses
+        if(JFileChooser.APPROVE_OPTION == hasilPilihFile){
+            File fileYangDipilih = jfcPilihFile.getSelectedFile();
+            txtNamaFile.setText(fileYangDipilih.getName());
+        }
+    }//GEN-LAST:event_btnPilihActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -211,6 +230,7 @@ public class FormDataKehadiran extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JFileChooser jfcPilihFile;
     private javax.swing.JTable tblKehadiran;
     private javax.swing.JTextField txtNamaFile;
     // End of variables declaration//GEN-END:variables
