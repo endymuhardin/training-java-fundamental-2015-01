@@ -29,19 +29,16 @@ public class ImporterKehadiranTextfile
     }
 
     public List<Kehadiran> importData() throws FileNotFoundException {
-        FileReader fr = null;
-        BufferedReader br = null;
+        FileReader fr = new FileReader(sumberData);
+        BufferedReader br = new BufferedReader(fr);
         List<Kehadiran> hasil = new ArrayList<Kehadiran>();
-        System.out.println("Nanti memproses file di sini");
-        fr = new FileReader(sumberData);
-        br = new BufferedReader(fr);
-        String data;
         
         String polaWaktu = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat parserWaktu = new SimpleDateFormat(polaWaktu);
         SortedMap<Integer, List<Date>> dataAbsensi = new TreeMap<Integer, List<Date>>();
         
         try {
+            String data;
             while ((data = br.readLine()) != null) {
                 konversiDataJadiMap(data, parserWaktu, dataAbsensi);
             }
