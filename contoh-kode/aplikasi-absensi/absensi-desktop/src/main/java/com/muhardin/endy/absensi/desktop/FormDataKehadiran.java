@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -292,7 +293,8 @@ public class FormDataKehadiran extends javax.swing.JFrame {
     private class KehadiranTableModel extends AbstractTableModel {
 
         private List<Kehadiran> data;
-        private SimpleDateFormat formatterTanggal = new SimpleDateFormat("E, d MMM yyyy");
+        private Locale indonesia = new Locale("ID", "ID");
+        private SimpleDateFormat formatterTanggal = new SimpleDateFormat("E, d MMM yyyy", indonesia);
         private SimpleDateFormat formatterWaktu = new SimpleDateFormat("HH:mm:ss");
 
         public KehadiranTableModel(List<Kehadiran> data) {
