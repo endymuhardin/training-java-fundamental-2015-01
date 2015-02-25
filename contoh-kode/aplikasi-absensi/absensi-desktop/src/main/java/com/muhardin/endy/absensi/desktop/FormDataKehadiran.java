@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -195,11 +197,9 @@ public class FormDataKehadiran extends javax.swing.JFrame {
         try {
             ImporterKehadiran im
                     = new ImporterKehadiranTextfile(fileYangDipilih);
-            List<Kehadiran> hasil = im.importData();
-            System.out.println("Jumlah data : "+hasil.size());
+            semuaDataKehadiran = im.importData();
 
-            List<Karyawan> daftarKaryawan = KehadiranHelper.generateDaftarKaryawan(hasil);
-            System.out.println("Jumlah karyawan : "+daftarKaryawan.size());
+            List<Karyawan> daftarKaryawan = KehadiranHelper.generateDaftarKaryawan(semuaDataKehadiran);
             
             cmbKaryawan.setModel(new DefaultComboBoxModel(daftarKaryawan.toArray()));
             cmbKaryawan.setRenderer(new KaryawanRenderer());
@@ -279,12 +279,62 @@ public class FormDataKehadiran extends javax.swing.JFrame {
             JComboBox cmb = (JComboBox) ae.getSource();
             Object pilihan = cmb.getSelectedItem();
             Karyawan k = (Karyawan) pilihan;
-            System.out.println("Nama karyawan yang dipilih : "+k.getNama());
+            
+            List<Kehadiran> kehadiranKaryawanTerpilih 
+                    = KehadiranHelper.cariKehadiran(k, semuaDataKehadiran);
+            
+            KehadiranTableModel dataTabel = new KehadiranTableModel(kehadiranKaryawanTerpilih);
+            tblKehadiran.setModel(dataTabel);
         }
         
     }
     
+    private class KehadiranTableModel extends AbstractTableModel {
+
+        private List<Kehadiran> data;
+        private SimpleDateFormat formatterTanggal = new SimpleDateFormat("E, d MMM yyyy");
+        private SimpleDateFormat formatterWaktu = new SimpleDateFormat("HH:mm:ss");
+
+        public KehadiranTableModel(List<Kehadiran> data) {
+            this.data = data;
+        }
+        
+        @Override
+        public int getRowCount() {
+            return data.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 3;
+        }
+
+        @Override
+        public Object getValueAt(int baris, int kolom) {
+            Kehadiran k = data.get(baris);
+            switch(kolom){
+                case 0: return formatterTanggal.format(k.getDatang());
+                case 1: return formatterWaktu.format(k.getDatang());
+                case 2: return formatterWaktu.format(k.getPulang());
+                default: return "";
+            }
+        }
+
+        @Override
+        public String getColumnName(int kolom) {
+            switch(kolom){
+                case 0: return "Tanggal";
+                case 1: return "Datang";
+                case 2: return "Pulang";
+                default: return "";
+            }
+        }
+        
+        
+    }
+    
     private File fileYangDipilih;
+    private List<Kehadiran> semuaDataKehadiran;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPilih;

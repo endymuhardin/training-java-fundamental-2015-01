@@ -22,4 +22,17 @@ public class KehadiranHelper {
         
         return hasil;
     }
+    
+    public static List<Kehadiran> cariKehadiran(Karyawan karyawan, List<Kehadiran> data){
+        List<Kehadiran> hasil = new ArrayList<>();
+        
+        for (Kehadiran k : data) {
+            if(!karyawan.getId().equals(k.getKaryawan().getId())){
+                continue;
+            }
+            hasil.add(k);
+        }
+        
+        return hasil;
+    }
 }
