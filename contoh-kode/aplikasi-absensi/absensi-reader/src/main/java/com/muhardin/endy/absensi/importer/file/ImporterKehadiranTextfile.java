@@ -55,7 +55,22 @@ public class ImporterKehadiranTextfile
     private void tampilkanMapHasilParsing(SortedMap<Integer, List<Date>> dataAbsensi) {
         System.out.println("============= Data Absensi =================");
         for (Integer x : dataAbsensi.keySet()) {
-            System.out.println("Data Absensi ID "+x+" : "+dataAbsensi.get(x));
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            SortedMap<String, List<Date>> kehadiranHarian = new TreeMap<String, List<Date>>();
+
+            for (Date tap : dataAbsensi.get(x)) {
+                String tanggal = formatter.format(tap);
+                List<Date> dataHadirHarian = kehadiranHarian.get(tanggal);
+                if(dataHadirHarian == null){
+                    dataHadirHarian = new ArrayList<Date>();
+                }
+                
+                dataHadirHarian.add(tap);
+                kehadiranHarian.put(tanggal, dataHadirHarian);
+            }
+            
+            System.out.println("Data Absensi ID "+x+" : "+kehadiranHarian);
         }
         System.out.println("============= Data Absensi =================");
     }
