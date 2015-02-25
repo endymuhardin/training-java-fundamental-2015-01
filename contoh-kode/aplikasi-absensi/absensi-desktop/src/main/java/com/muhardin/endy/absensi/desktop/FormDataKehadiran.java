@@ -11,6 +11,8 @@ import com.muhardin.endy.absensi.desktop.helper.KehadiranHelper;
 import com.muhardin.endy.absensi.importer.ImporterKehadiran;
 import com.muhardin.endy.absensi.importer.file.ImporterKehadiranTextfile;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -33,6 +36,7 @@ public class FormDataKehadiran extends javax.swing.JFrame {
      */
     public FormDataKehadiran() {
         initComponents();
+        cmbKaryawan.addActionListener(new ComboDipilihListener());
     }
 
     /**
@@ -264,6 +268,18 @@ public class FormDataKehadiran extends javax.swing.JFrame {
             }
             
             return this;
+        }
+        
+    }
+    
+    private class ComboDipilihListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            JComboBox cmb = (JComboBox) ae.getSource();
+            Object pilihan = cmb.getSelectedItem();
+            Karyawan k = (Karyawan) pilihan;
+            System.out.println("Nama karyawan yang dipilih : "+k.getNama());
         }
         
     }
