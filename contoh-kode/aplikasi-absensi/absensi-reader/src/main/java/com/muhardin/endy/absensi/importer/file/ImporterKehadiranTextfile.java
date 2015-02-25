@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,18 +35,23 @@ public class ImporterKehadiranTextfile
         fr = new FileReader(sumberData);
         br = new BufferedReader(fr);
         String data;
+        
+        String polaTanggal = "MM/dd/yyyy";
+        SimpleDateFormat parserTanggal = new SimpleDateFormat(polaTanggal);
+        
         try {
             data = br.readLine();
             while (data != null) {
                 System.out.println(data);
-                String[] dipecah = data.split("[\\s]+");
+                String[] dipecah = data.trim().split("[\\s]+");
                 System.out.println("Jumlah data setelah split : "+dipecah.length);
-                
                 System.out.println("Data 1 "+dipecah[0]);
                 System.out.println("Data 2 "+dipecah[1]);
                 System.out.println("Data 3 "+dipecah[2]);
                 System.out.println("Data 4 "+dipecah[3]);
-                
+                System.out.println("Data 5 "+dipecah[4]);
+                System.out.println("Data 6 "+dipecah[5]);
+                System.out.println("Data 7 "+dipecah[6]);
                 data = br.readLine();
             }
             br.close();
