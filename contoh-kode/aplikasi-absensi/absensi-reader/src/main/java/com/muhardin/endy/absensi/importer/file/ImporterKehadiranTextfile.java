@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,6 +41,8 @@ public class ImporterKehadiranTextfile
         String polaWaktu = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat parserWaktu = new SimpleDateFormat(polaWaktu);
         
+        Map<Integer, List<Date>> dataAbsensi = new HashMap<Integer, List<Date>>();
+        
         try {
             data = br.readLine();
             while (data != null) {
@@ -57,6 +61,17 @@ public class ImporterKehadiranTextfile
                     // parsing data tanggal
                     Date waktu = parserWaktu.parse(dipecah[1]+" "+dipecah[2]);
                     System.out.println("Waktu : "+waktu);
+                    
+                    Integer id = Integer.valueOf(dipecah[0]);
+                    List<Date> value = dataAbsensi.get(id);
+                    
+                    if(value == null){
+                        value = new ArrayList<Date>();
+                    }
+                    
+                    value.add(waktu);
+                    dataAbsensi.put(id, value);
+                    
                 } catch (ParseException ex) {
                     Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -64,12 +79,18 @@ public class ImporterKehadiranTextfile
                 data = br.readLine();
             }
             br.close();
-
             fr.close();
         } catch (IOException ex) {
             Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Gagal membaca file");
         }
+        
+        System.out.println("============= Data Absensi =================");
+        for (Integer x : dataAbsensi.keySet()) {
+            System.out.println("Data Absensi ID "+x+" : "+dataAbsensi.get(x));
+        }
+        System.out.println("============= Data Absensi =================");
+        
         return hasil;
     }
 }
