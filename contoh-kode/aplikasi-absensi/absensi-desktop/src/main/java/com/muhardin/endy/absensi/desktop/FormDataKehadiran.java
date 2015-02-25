@@ -5,7 +5,9 @@
  */
 package com.muhardin.endy.absensi.desktop;
 
+import com.muhardin.endy.absensi.Karyawan;
 import com.muhardin.endy.absensi.Kehadiran;
+import com.muhardin.endy.absensi.desktop.helper.KehadiranHelper;
 import com.muhardin.endy.absensi.importer.ImporterKehadiran;
 import com.muhardin.endy.absensi.importer.file.ImporterKehadiranTextfile;
 import java.io.File;
@@ -187,6 +189,10 @@ public class FormDataKehadiran extends javax.swing.JFrame {
                     = new ImporterKehadiranTextfile(fileYangDipilih);
             List<Kehadiran> hasil = im.importData();
             System.out.println("Jumlah data : "+hasil.size());
+
+            List<Karyawan> daftarKaryawan = KehadiranHelper.generateDaftarKaryawan(hasil);
+            System.out.println("Jumlah karyawan : "+daftarKaryawan.size());
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FormDataKehadiran.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "File gak ketemu gan", "Error", JOptionPane.ERROR_MESSAGE);
