@@ -10,12 +10,16 @@ import com.muhardin.endy.absensi.Kehadiran;
 import com.muhardin.endy.absensi.desktop.helper.KehadiranHelper;
 import com.muhardin.endy.absensi.importer.ImporterKehadiran;
 import com.muhardin.endy.absensi.importer.file.ImporterKehadiranTextfile;
+import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -193,6 +197,8 @@ public class FormDataKehadiran extends javax.swing.JFrame {
             List<Karyawan> daftarKaryawan = KehadiranHelper.generateDaftarKaryawan(hasil);
             System.out.println("Jumlah karyawan : "+daftarKaryawan.size());
             
+            cmbKaryawan.setModel(new DefaultComboBoxModel(daftarKaryawan.toArray()));
+            cmbKaryawan.setRenderer(new KaryawanRenderer());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FormDataKehadiran.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "File gak ketemu gan", "Error", JOptionPane.ERROR_MESSAGE);
@@ -246,6 +252,20 @@ public class FormDataKehadiran extends javax.swing.JFrame {
                 new FormDataKehadiran().setVisible(true);
             }
         });
+    }
+    
+    private class KaryawanRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> jlist, Object yangMauDitampilkan, int i, boolean bln, boolean bln1) {
+            if(Karyawan.class.isAssignableFrom(yangMauDitampilkan.getClass())){
+                Karyawan k = (Karyawan) yangMauDitampilkan;
+                setText(k.getNama());
+            }
+            
+            return this;
+        }
+        
     }
     
     private File fileYangDipilih;
