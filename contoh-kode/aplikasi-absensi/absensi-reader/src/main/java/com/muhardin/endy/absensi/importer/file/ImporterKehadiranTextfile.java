@@ -36,8 +36,8 @@ public class ImporterKehadiranTextfile
         br = new BufferedReader(fr);
         String data;
         
-        String polaTanggal = "MM/dd/yyyy";
-        SimpleDateFormat parserTanggal = new SimpleDateFormat(polaTanggal);
+        String polaWaktu = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat parserWaktu = new SimpleDateFormat(polaWaktu);
         
         try {
             data = br.readLine();
@@ -52,6 +52,15 @@ public class ImporterKehadiranTextfile
                 System.out.println("Data 5 "+dipecah[4]);
                 System.out.println("Data 6 "+dipecah[5]);
                 System.out.println("Data 7 "+dipecah[6]);
+                
+                try {
+                    // parsing data tanggal
+                    Date waktu = parserWaktu.parse(dipecah[1]+" "+dipecah[2]);
+                    System.out.println("Waktu : "+waktu);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 data = br.readLine();
             }
             br.close();
