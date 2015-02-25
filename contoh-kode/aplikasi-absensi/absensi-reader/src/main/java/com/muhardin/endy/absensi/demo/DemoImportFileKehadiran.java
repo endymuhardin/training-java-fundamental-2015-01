@@ -20,9 +20,23 @@ public class DemoImportFileKehadiran{
             
             List<Kehadiran> hasil = im.importData();
             System.out.println("Jumlah data : "+hasil.size());
+            
+            tampilkanDaftarKehadiran(hasil);
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DemoImportFileKehadiran.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "File gak ketemu gan", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private static void tampilkanDaftarKehadiran(List<Kehadiran> hasil) {
+        System.out.println("============ Data Kehadiran ============");
+        for (Kehadiran k : hasil) {
+            System.out.println("--------------------------");
+            System.out.println("ID Karyawan : "+k.getKaryawan().getId());
+            System.out.println("Datang : "+k.getDatang());
+            System.out.println("Pulang : "+k.getPulang());
+        }
+        System.out.println("============ Data Kehadiran ============");
     }
 }

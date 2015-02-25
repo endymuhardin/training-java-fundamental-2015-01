@@ -1,5 +1,6 @@
 package com.muhardin.endy.absensi.importer.file;
 
+import com.muhardin.endy.absensi.Karyawan;
 import com.muhardin.endy.absensi.importer.ImporterKehadiran;
 import com.muhardin.endy.absensi.Kehadiran;
 import java.io.BufferedReader;
@@ -31,7 +32,6 @@ public class ImporterKehadiranTextfile
     public List<Kehadiran> importData() throws FileNotFoundException {
         FileReader fr = new FileReader(sumberData);
         BufferedReader br = new BufferedReader(fr);
-        List<Kehadiran> hasil = new ArrayList<Kehadiran>();
         
         String polaWaktu = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat parserWaktu = new SimpleDateFormat(polaWaktu);
@@ -48,37 +48,65 @@ public class ImporterKehadiranTextfile
             Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Gagal membaca file");
         }
-        tampilkanMapHasilParsing(dataAbsensi);
+        
+        //tampilkanMapHasilParsing(dataAbsensi);
+        List<Kehadiran> hasil = konversiMapJadiListKehadiran(dataAbsensi);
+        return hasil;
+    }
+
+    private List<Kehadiran> konversiMapJadiListKehadiran(SortedMap<Integer, List<Date>> dataAbsensi) {
+        List<Kehadiran> hasil = new ArrayList<Kehadiran>();
+        for (Integer x : dataAbsensi.keySet()) {
+            SortedMap<String, List<Date>> kehadiranHarian = parseKehadiranPerHari(dataAbsensi, x);
+            
+            Karyawan kr = new Karyawan();
+            kr.setId(x);
+            
+            for (String harian : kehadiranHarian.keySet()) {
+                List<Date> dataHariIni = kehadiranHarian.get(harian);
+                if(dataHariIni.size() < 2){
+                    continue;
+                }
+                
+                Kehadiran k = new Kehadiran();
+                k.setKaryawan(kr);
+                k.setDatang(dataHariIni.get(0));
+                k.setPulang(dataHariIni.get(dataHariIni.size() - 1));
+                hasil.add(k);
+            }
+        }
         return hasil;
     }
 
     private void tampilkanMapHasilParsing(SortedMap<Integer, List<Date>> dataAbsensi) {
         System.out.println("============= Data Absensi =================");
         for (Integer x : dataAbsensi.keySet()) {
-            
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            SortedMap<String, List<Date>> kehadiranHarian = new TreeMap<String, List<Date>>();
-
-            for (Date tap : dataAbsensi.get(x)) {
-                String tanggal = formatter.format(tap);
-                List<Date> dataHadirHarian = kehadiranHarian.get(tanggal);
-                if(dataHadirHarian == null){
-                    dataHadirHarian = new ArrayList<Date>();
-                }
-                
-                dataHadirHarian.add(tap);
-                kehadiranHarian.put(tanggal, dataHadirHarian);
-            }
-            
+            SortedMap<String, List<Date>> kehadiranHarian = parseKehadiranPerHari(dataAbsensi, x);
             System.out.println("Data Absensi ID "+x+" : "+kehadiranHarian);
         }
         System.out.println("============= Data Absensi =================");
     }
 
+    private SortedMap<String, List<Date>> parseKehadiranPerHari(SortedMap<Integer, List<Date>> dataAbsensi, Integer x) {
+        SortedMap<String, List<Date>> kehadiranHarian = new TreeMap<String, List<Date>>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (Date tap : dataAbsensi.get(x)) {
+            String tanggal = formatter.format(tap);
+            List<Date> dataHadirHarian = kehadiranHarian.get(tanggal);
+            if(dataHadirHarian == null){
+                dataHadirHarian = new ArrayList<Date>();
+            }
+            
+            dataHadirHarian.add(tap);
+            kehadiranHarian.put(tanggal, dataHadirHarian);
+        }
+        return kehadiranHarian;
+    }
+
     private void konversiDataJadiMap(String data, SimpleDateFormat parserWaktu, SortedMap<Integer, List<Date>> dataAbsensi) throws NumberFormatException {
         System.out.println(data);
         String[] dipecah = data.trim().split("[\\s]+");
-        tampilkanHasilSplit(dipecah);
+        //tampilkanHasilSplit(dipecah);
         
         try {
             // parsing data tanggal
