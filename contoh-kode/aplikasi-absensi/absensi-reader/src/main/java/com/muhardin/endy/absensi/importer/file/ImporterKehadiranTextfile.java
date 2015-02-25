@@ -42,10 +42,8 @@ public class ImporterKehadiranTextfile
         SortedMap<Integer, List<Date>> dataAbsensi = new TreeMap<Integer, List<Date>>();
         
         try {
-            data = br.readLine();
-            while (data != null) {
+            while ((data = br.readLine()) != null) {
                 konversiDataJadiMap(data, parserWaktu, dataAbsensi);
-                data = br.readLine();
             }
             br.close();
             fr.close();
