@@ -39,35 +39,12 @@ public class ImporterKehadiranTextfile
         
         String polaWaktu = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat parserWaktu = new SimpleDateFormat(polaWaktu);
-        
         SortedMap<Integer, List<Date>> dataAbsensi = new TreeMap<Integer, List<Date>>();
         
         try {
             data = br.readLine();
             while (data != null) {
-                System.out.println(data);
-                String[] dipecah = data.trim().split("[\\s]+");
-                tampilkanHasilSplit(dipecah);
-                
-                try {
-                    // parsing data tanggal
-                    Date waktu = parserWaktu.parse(dipecah[1]+" "+dipecah[2]);
-                    System.out.println("Waktu : "+waktu);
-                    
-                    Integer id = Integer.valueOf(dipecah[0]);
-                    List<Date> dataAbsensiKaryawan = dataAbsensi.get(id);
-                    
-                    if(dataAbsensiKaryawan == null){
-                        dataAbsensiKaryawan = new ArrayList<Date>();
-                    }
-                    
-                    dataAbsensiKaryawan.add(waktu);
-                    dataAbsensi.put(id, dataAbsensiKaryawan);
-                    
-                } catch (ParseException ex) {
-                    Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
+                konversiDataJadiMap(data, parserWaktu, dataAbsensi);
                 data = br.readLine();
             }
             br.close();
@@ -76,14 +53,41 @@ public class ImporterKehadiranTextfile
             Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Gagal membaca file");
         }
-        
+        tampilkanMapHasilParsing(dataAbsensi);
+        return hasil;
+    }
+
+    private void tampilkanMapHasilParsing(SortedMap<Integer, List<Date>> dataAbsensi) {
         System.out.println("============= Data Absensi =================");
         for (Integer x : dataAbsensi.keySet()) {
             System.out.println("Data Absensi ID "+x+" : "+dataAbsensi.get(x));
         }
         System.out.println("============= Data Absensi =================");
+    }
+
+    private void konversiDataJadiMap(String data, SimpleDateFormat parserWaktu, SortedMap<Integer, List<Date>> dataAbsensi) throws NumberFormatException {
+        System.out.println(data);
+        String[] dipecah = data.trim().split("[\\s]+");
+        tampilkanHasilSplit(dipecah);
         
-        return hasil;
+        try {
+            // parsing data tanggal
+            Date waktu = parserWaktu.parse(dipecah[1]+" "+dipecah[2]);
+            System.out.println("Waktu : "+waktu);
+            
+            Integer id = Integer.valueOf(dipecah[0]);
+            List<Date> dataAbsensiKaryawan = dataAbsensi.get(id);
+            
+            if(dataAbsensiKaryawan == null){
+                dataAbsensiKaryawan = new ArrayList<Date>();
+            }
+            
+            dataAbsensiKaryawan.add(waktu);
+            dataAbsensi.put(id, dataAbsensiKaryawan);
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(ImporterKehadiranTextfile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void tampilkanHasilSplit(String[] dipecah) {
