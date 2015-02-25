@@ -197,6 +197,7 @@ public class FormDataKehadiran extends javax.swing.JFrame {
     
     
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
+        jfcPilihFile.setCurrentDirectory(new File(System.getProperty("user.dir")));
         int hasilPilihFile = jfcPilihFile.showOpenDialog(this);
         
         // kalau tekan tombol OK, baru kita proses
