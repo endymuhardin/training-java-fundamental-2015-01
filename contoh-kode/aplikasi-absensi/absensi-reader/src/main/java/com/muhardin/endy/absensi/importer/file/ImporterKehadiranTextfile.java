@@ -104,14 +104,12 @@ public class ImporterKehadiranTextfile
     }
 
     private void konversiDataJadiMap(String data, SimpleDateFormat parserWaktu, SortedMap<Integer, List<Date>> dataAbsensi) throws NumberFormatException {
-        System.out.println(data);
         String[] dipecah = data.trim().split("[\\s]+");
         //tampilkanHasilSplit(dipecah);
         
         try {
             // parsing data tanggal
             Date waktu = parserWaktu.parse(dipecah[1]+" "+dipecah[2]);
-            System.out.println("Waktu : "+waktu);
             
             Integer id = Integer.valueOf(dipecah[0]);
             List<Date> dataAbsensiKaryawan = dataAbsensi.get(id);
