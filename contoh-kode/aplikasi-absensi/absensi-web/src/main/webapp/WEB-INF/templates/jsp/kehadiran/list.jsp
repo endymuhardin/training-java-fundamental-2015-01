@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,24 +25,30 @@
         </form>
 
         <hr>
-
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Tanggal</th>
-                    <th>Datang</th>
-                    <th>Pulang</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1 Februari 2015</td>
-                    <td>08:00</td>
-                    <td>17:00</td>
-                </tr>
-            </tbody>
-        </table>
-
+        
+        <c:if test="${empty dataKehadiran}" >
+            Data tidak ada
+        </c:if>
+        <c:if test="${not empty dataKehadiran}" >
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Datang</th>
+                        <th>Pulang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="k" items="${dataKehadiran}">
+                    <tr>
+                        <td><fmt:formatDate type="date" value="${k.datang}"></fmt:formatDate></td>
+                        <td><fmt:formatDate type="time" value="${k.datang}"></fmt:formatDate></td>
+                        <td><fmt:formatDate type="time" value="${k.pulang}"></fmt:formatDate></td>
+                    </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
 
     </body>
 </html>
