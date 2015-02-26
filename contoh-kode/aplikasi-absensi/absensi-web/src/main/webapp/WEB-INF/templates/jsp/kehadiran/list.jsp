@@ -36,6 +36,9 @@
             Data tidak ada
         </c:if>
         <c:if test="${not empty dataKehadiran}" >
+            
+            Jumlah data : ${pager.jumlahData}
+            
             <table border="1">
                 <thead>
                     <tr>
@@ -54,6 +57,19 @@
                     </c:forEach>
                 </tbody>
             </table>
+            
+            <a href="list?idKaryawan=${idPilihan}&mulai=${mulai}&sampai=${sampai}&p=1">First</a>
+            
+            <c:forEach var="hal" begin="1" end="${pager.jumlahHalaman}">
+                <c:if test="${hal == pager.halamanSekarang}">
+                    ${hal}
+                </c:if>
+                <c:if test="${hal != pager.halamanSekarang}">
+                    <a href="list?idKaryawan=${idPilihan}&mulai=${mulai}&sampai=${sampai}&p=${hal}">${hal}</a>
+                </c:if>
+            </c:forEach>
+            
+            <a href="list?idKaryawan=${idPilihan}&mulai=${mulai}&sampai=${sampai}&p=${pager.jumlahHalaman}">Last</a>
         </c:if>
 
     </body>

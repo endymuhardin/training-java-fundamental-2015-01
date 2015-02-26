@@ -83,4 +83,26 @@ public class KehadiranDao {
         }
         return hasil;
     }
+
+    public Integer hitungKehadiran(Karyawan k, Date mulai, Date sampai) {
+        try {
+            String sql = "select count(*) from kehadiran "
+                    + "where id_karyawan = ? and "
+                    + "datang >= ? and datang <= ? ";
+            
+            Connection koneksi = dataSource.getConnection();
+            PreparedStatement ps = koneksi.prepareStatement(sql);
+            ps.setInt(1, k.getId());
+            ps.setTimestamp(2, new java.sql.Timestamp(mulai.getTime()));
+            ps.setTimestamp(3, new java.sql.Timestamp(sampai.getTime()));
+            
+            ResultSet hasilQuery = ps.executeQuery();
+            if(hasilQuery.next()){
+                return hasilQuery.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KehadiranDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 }

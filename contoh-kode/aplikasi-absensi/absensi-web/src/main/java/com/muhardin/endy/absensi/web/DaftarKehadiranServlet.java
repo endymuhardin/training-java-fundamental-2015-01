@@ -69,10 +69,29 @@ public class DaftarKehadiranServlet extends HttpServlet {
                 req.setAttribute("sampai", formatter.format(sampai));
                 req.setAttribute("idPilihan", id);
                 
-                List<Kehadiran> dataKehadiran = kehadiranDao.cariKehadiran(k, mulai, sampai, 0, 10);
+                
+                // paging
+                Integer halamanSekarang = 1;
+                Integer dataPerHalaman = 10;
+                
+                String strHalaman = req.getParameter("p");
+                if(strHalaman != null && !strHalaman.isEmpty()){
+                    halamanSekarang = Integer.valueOf(strHalaman);
+                }
+                
+                Integer totalData = kehadiranDao.hitungKehadiran(k, mulai, sampai);
+
+                PagingHelper page = new PagingHelper();
+                page.setDataPerHalaman(dataPerHalaman);
+                page.setHalamanSekarang(halamanSekarang);
+                page.setJumlahData(totalData);
+                
+                List<Kehadiran> dataKehadiran = kehadiranDao
+                        .cariKehadiran(k, mulai, sampai, 
+                                page.getPosisiSekarang(), page.getDataPerHalaman());
+                
                 req.setAttribute("dataKehadiran", dataKehadiran);
-                
-                
+                req.setAttribute("pager", page);
                 
             } catch (ParseException ex) {
                 Logger.getLogger(DaftarKehadiranServlet.class.getName()).log(Level.SEVERE, null, ex);
