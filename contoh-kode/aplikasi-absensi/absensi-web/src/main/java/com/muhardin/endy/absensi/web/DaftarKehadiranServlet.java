@@ -43,19 +43,36 @@ public class DaftarKehadiranServlet extends HttpServlet {
         req.setAttribute("dataKaryawan", semuaKaryawan);
         
         String id = req.getParameter("idKaryawan");
-        if(id != null && id.trim().length() > 0){
+        if(id != null && !id.isEmpty()){
             try {
                 Integer idKaryawan = Integer.valueOf(id);
                 Karyawan k = new Karyawan();
                 k.setId(idKaryawan);
                 
-                // sementara hardcode dulu
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                
+                // default value
                 Date mulai = formatter.parse("2011-01-01");
                 Date sampai = formatter.parse("2016-01-01");
                 
+                String strMulai = req.getParameter("mulai");
+                if(strMulai != null && !strMulai.isEmpty()) {
+                    mulai = formatter.parse(strMulai);
+                }
+                
+                String strSampai = req.getParameter("sampai");
+                if(strSampai != null && !strSampai.isEmpty()) {
+                    sampai = formatter.parse(strSampai);
+                }
+                
+                req.setAttribute("mulai", formatter.format(mulai));
+                req.setAttribute("sampai", formatter.format(sampai));
+                
                 List<Kehadiran> dataKehadiran = kehadiranDao.cariKehadiran(k, mulai, sampai, 0, 10);
                 req.setAttribute("dataKehadiran", dataKehadiran);
+                
+                
+                
             } catch (ParseException ex) {
                 Logger.getLogger(DaftarKehadiranServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

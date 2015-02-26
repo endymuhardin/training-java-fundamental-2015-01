@@ -14,11 +14,17 @@
 
             Karyawan : 
             <select name="idKaryawan">
-                <option>Pilih Karyawan</option>
+                <option value="">Pilih Karyawan</option>
                 <c:forEach var="k" items="${dataKaryawan}">
                     <option value="${k.id}">${k.nama}</option>
                 </c:forEach>
             </select>
+            
+            <br>
+            
+            Periode : <input name="mulai" value="${mulai}"> - <input name="sampai" value="${sampai}">
+            
+            <br>
 
             <input type="submit" value="Cari" />
 
