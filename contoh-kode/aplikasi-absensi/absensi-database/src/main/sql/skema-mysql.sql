@@ -11,3 +11,5 @@ create table kehadiran(
     FOREIGN KEY (id_karyawan) REFERENCES karyawan(id)
 ) Engine InnoDB ;
 
+insert into karyawan (id, nama)
+values(99, 'Endy Muhardin');
