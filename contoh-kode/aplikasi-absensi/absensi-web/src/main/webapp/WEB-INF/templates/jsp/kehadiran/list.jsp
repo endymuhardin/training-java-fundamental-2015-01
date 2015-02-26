@@ -16,7 +16,7 @@
             <select name="idKaryawan">
                 <option value="">Pilih Karyawan</option>
                 <c:forEach var="k" items="${dataKaryawan}">
-                    <option value="${k.id}">${k.nama}</option>
+                    <option value="${k.id}" <c:if test="${k.id == idPilihan}">selected</c:if>>${k.nama}</option>
                 </c:forEach>
             </select>
             

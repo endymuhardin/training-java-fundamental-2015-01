@@ -67,6 +67,7 @@ public class DaftarKehadiranServlet extends HttpServlet {
                 
                 req.setAttribute("mulai", formatter.format(mulai));
                 req.setAttribute("sampai", formatter.format(sampai));
+                req.setAttribute("idPilihan", id);
                 
                 List<Kehadiran> dataKehadiran = kehadiranDao.cariKehadiran(k, mulai, sampai, 0, 10);
                 req.setAttribute("dataKehadiran", dataKehadiran);
