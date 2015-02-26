@@ -7,9 +7,12 @@ package com.muhardin.endy.absensi.desktop;
 
 import com.muhardin.endy.absensi.Karyawan;
 import com.muhardin.endy.absensi.Kehadiran;
+import com.muhardin.endy.absensi.database.KaryawanDao;
+import com.muhardin.endy.absensi.database.KehadiranDao;
 import com.muhardin.endy.absensi.desktop.helper.KehadiranHelper;
 import com.muhardin.endy.absensi.importer.ImporterKehadiran;
 import com.muhardin.endy.absensi.importer.file.ImporterKehadiranTextfile;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
@@ -202,6 +206,9 @@ public class FormDataKehadiran extends javax.swing.JFrame {
 
             List<Karyawan> daftarKaryawan = KehadiranHelper.generateDaftarKaryawan(semuaDataKehadiran);
             
+            simpanDataKaryawan(daftarKaryawan);
+            simpanDataKehadiran(semuaDataKehadiran);
+            
             cmbKaryawan.setModel(new DefaultComboBoxModel(daftarKaryawan.toArray()));
             cmbKaryawan.setRenderer(new KaryawanRenderer());
         } catch (FileNotFoundException ex) {
@@ -211,7 +218,27 @@ public class FormDataKehadiran extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnProsesActionPerformed
 
+    private DataSource buatDataSource(){
+        MysqlDataSource ds = new MysqlDataSource();
+        ds.setUrl("jdbc:mysql://localhost/absensi");
+        ds.setUser("root");
+        ds.setPassword("admin");
+        return ds;
+    }
     
+    private void simpanDataKaryawan(List<Karyawan> data){
+        KaryawanDao kd = new KaryawanDao(buatDataSource());
+        for (Karyawan k : data) {
+            kd.simpan(k);
+        }
+    }
+    
+    private void simpanDataKehadiran(List<Kehadiran> data){
+        KehadiranDao kd = new KehadiranDao(buatDataSource());
+        for (Kehadiran k : data) {
+            kd.simpan(k);
+        }
+    }
     
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
         jfcPilihFile.setCurrentDirectory(new File(System.getProperty("user.dir")));

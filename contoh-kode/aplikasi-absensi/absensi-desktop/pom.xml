@@ -20,6 +20,11 @@
             <artifactId>absensi-reader</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>absensi-database</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     
     <build>
