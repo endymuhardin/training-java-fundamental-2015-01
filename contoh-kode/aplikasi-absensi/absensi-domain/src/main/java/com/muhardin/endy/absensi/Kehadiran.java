@@ -4,12 +4,21 @@ import java.util.Date;
 
 public class Kehadiran {
 
+    private Integer id;
     private Karyawan karyawan;
     private Date datang;
     private Date pulang;
-
+    
     // getter dan setter
-    public Karyawan getKaryawan(){
+    public Integer getId(){
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Karyawan getKaryawan() {
         return karyawan;
     }
 
