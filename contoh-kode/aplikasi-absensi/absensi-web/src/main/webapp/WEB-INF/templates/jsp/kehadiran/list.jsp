@@ -22,7 +22,7 @@
             
             <br>
             
-            Periode : <input name="mulai" value="${mulai}"> - <input name="sampai" value="${sampai}">
+            Periode : <input name="mulai" value="${mulai}"> - <input name="sampai" value="${sampai}"> (yyyy-MM-dd)
             
             <br>
 
