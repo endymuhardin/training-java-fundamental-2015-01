@@ -15,5 +15,15 @@
         <servlet-name>Halo</servlet-name>
         <url-pattern>/halo.php</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>DaftarKehadiran</servlet-name>
+        <servlet-class>com.muhardin.endy.absensi.web.DaftarKehadiranServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>DaftarKehadiran</servlet-name>
+        <url-pattern>/kehadiran/list</url-pattern>
+    </servlet-mapping>
 
 </web-app>
